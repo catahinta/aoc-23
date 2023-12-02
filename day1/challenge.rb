@@ -17,10 +17,10 @@ get_results(input_array)
 
 def get_better_results(input_array)
   new_input = input_array.map do |input|
-    input.gsub("one", "1").gsub("two", "2").gsub("three", "3").gsub("four", "4").gsub("five", "5").gsub("six", "6").gsub("seven", "7").gsub("eight", "8").gsub("nine", "9")
+    input.gsub("oneight", "18").gsub("threeight", "38").gsub("fiveight", "58").gsub("sevenine", "79").gsub("eightwo", "82").gsub("eighthree", "83").gsub("nineight", "98").gsub("twone", "21").gsub("one", "1").gsub("two", "2").gsub("three", "3").gsub("four", "4").gsub("five", "5").gsub("six", "6").gsub("seven", "7").gsub("eight", "8").gsub("nine", "9")
   end
   get_results(new_input)
 end
 
-# p get_better_results(["two1nine", "eightwothree", "abcone2threexyz", "xtwone3four", "4nineeightseven2", "zoneight234", "7pqrstsixteen"])
-# p get_better_results(input_array)
+p get_better_results(["two1nine", "eightwothree", "abcone2threexyz", "xtwone3four", "4nineeightseven2", "zoneight234", "7pqrstsixteen"])
+p get_better_results(input_array)
