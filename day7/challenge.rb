@@ -64,4 +64,4 @@ def get_score(hands_hash)
   sum
 end
 
-p get_score(hands_hash)
+# p get_score(hands_hash)
