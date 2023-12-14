@@ -35,4 +35,32 @@ end
 
 # p navigate_network(test_network, test_instructions)
 
-p navigate_network(network, instructions)
+# p navigate_network(network, instructions)
+
+# part 2
+
+def simultaneously_naviage_network(network, instructions)
+  current_positions = []
+  network.each do |key, value|
+    current_positions << value if key.end_with?("A")
+  end
+
+  counter = 0
+  instruction_position = 1
+
+  until current_positions.all? { |position| position[:element].end_with?("Z") }
+    current_positions.each_with_index do |position, index|
+      next_position = network[position[:left]] if instructions[instruction_position - 1] == "L"
+      next_position = network[position[:right]] if instructions[instruction_position - 1] == "R"
+      current_positions[index] = next_position
+    end
+    counter += 1
+    if instruction_position == instructions.length
+      instruction_position = 1
+    else
+      instruction_position += 1
+    end
+  end
+
+  counter
+end
