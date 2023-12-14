@@ -39,28 +39,72 @@ end
 
 # part 2
 
-def simultaneously_naviage_network(network, instructions)
-  current_positions = []
-  network.each do |key, value|
-    current_positions << value if key.end_with?("A")
-  end
+def map_one_route(network, starting_point, instructions)
+  instruction_position = 1
+  current_position = starting_point
 
   counter = 0
-  instruction_position = 1
 
-  until current_positions.all? { |position| position[:element].end_with?("Z") }
-    current_positions.each_with_index do |position, index|
-      next_position = network[position[:left]] if instructions[instruction_position - 1] == "L"
-      next_position = network[position[:right]] if instructions[instruction_position - 1] == "R"
-      current_positions[index] = next_position
-    end
-    counter += 1
+  until current_position[:element].end_with?("Z")
+    next_position = network[current_position[:left]] if instructions[instruction_position - 1] == "L"
+    next_position = network[current_position[:right]] if instructions[instruction_position - 1] == "R"
+    current_position = next_position
     if instruction_position == instructions.length
       instruction_position = 1
     else
       instruction_position += 1
     end
+    counter += 1
+  end
+  { counter: counter, position: current_position }
+end
+
+def simultaneously_naviage_network(network, instructions)
+  starting_positions = []
+  ending_positions = []
+
+  network.each do |key, value|
+    starting_positions << value if key.end_with?("A")
+    ending_positions << value if key.end_with?("Z")
   end
 
-  counter
+  # counter = 0
+  # instruction_position = 1
+
+  # until current_positions.all? { |position| position[:element].end_with?("Z") }
+  #   current_positions.each_with_index do |position, index|
+  #     next_position = network[position[:left]] if instructions[instruction_position - 1] == "L"
+  #     next_position = network[position[:right]] if instructions[instruction_position - 1] == "R"
+  #     current_positions[index] = next_position
+  #   end
+  #   counter += 1
+  #   if instruction_position == instructions.length
+  #     instruction_position = 1
+  #   else
+  #     instruction_position += 1
+  #   end
+  # end
+
+  # counter
+
+  counters_hash = {}
+
+  starting_positions.each_with_index do |position, index|
+    counters = []
+    first_point = map_one_route(network, position, instructions)
+    counter = first_point[:counter]
+    counters << first_point[:counter]
+    current_position = first_point[:position]
+    (ending_positions.length - 1).times do
+      result = map_one_route(network, current_position, instructions)
+      counters << result[:counter]
+      counter += result[:counter]
+      current_position = result[:position]
+    end
+    counters_hash[index + 1] = counters
+  end
+
+  counters_hash
 end
+
+p simultaneously_naviage_network(network, instructions)
