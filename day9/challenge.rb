@@ -12,4 +12,32 @@ def get_differences(history)
   differences
 end
 
-# p get_differences([0, 3, 6, 9, 12, 15])
+def get_all_differences(history)
+  differences = []
+  result = get_differences(history)
+  differences << result
+  until result.all? { |num| num == 0 }
+    result = get_differences(result)
+    differences << result
+  end
+  differences
+end
+
+def get_next_value(history)
+  differences = get_all_differences(history).reverse
+  differences.first << 0
+  (differences.length - 1).times do |i|
+    differences[i + 1] << (differences[i + 1].last + differences[i].last)
+  end
+  history.last + differences.last.last
+end
+
+def get_sum(input)
+  sum = 0
+  input.each do |history|
+    sum += get_next_value(history)
+  end
+  sum
+end
+
+p get_sum(input)
