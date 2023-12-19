@@ -40,4 +40,27 @@ def get_sum(input)
   sum
 end
 
-p get_sum(input)
+# p get_sum(input)
+
+# part2
+
+def get_first_value(history)
+  differences = get_all_differences(history).reverse
+  differences.first.unshift(0)
+  (differences.length - 1).times do |i|
+    differences[i + 1].unshift((differences[i + 1].first) - differences[i].first)
+  end
+  history.first - differences.last.first
+end
+
+# p get_first_value([10, 13, 16, 21, 30, 45])
+
+def get_part_two_sum(input)
+  sum = 0
+  input.each do |history|
+    sum += get_first_value(history)
+  end
+  sum
+end
+
+p get_part_two_sum(input)
